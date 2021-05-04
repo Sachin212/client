@@ -9,7 +9,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import { setContext } from 'apollo-link-context'
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:5000'
+    uri: 'https://git.heroku.com/pure-journey-56950.git' // Here also server address
 })
 
 const authLink = setContext(() =>{
