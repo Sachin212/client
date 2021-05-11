@@ -3,24 +3,30 @@ import React, { useState } from 'react'
 import { Image, Form, Button, Dropdown, Grid, Input } from 'semantic-ui-react'
 import gql from 'graphql-tag'
 
+import { app } from '../storage/base'
+
 function EditProfile(props){
+    const username = props.match.params.username
+
     const Gender = [
         { key: 'M', value: 'M', text: 'Male' },
         { key: 'F', value: 'F', text: 'Female' },
         ]
-    const [pic, setFile] = useState('')
-    const [dob, setDob] = useState('')
-    const [mobile, setMobile] = useState('')
-    const [profileId, setProfileId] = useState({})
-    const [gender, setGender] = useState('')
-    const [temp, setTemp] = useState('https://react.semantic-ui.com/images/avatar/large/molly.png')
-    const username = props.match.params.username
 
     const { loading, data } = useQuery(FETCH_PROFILE_QUERY, {
         variables: {
             username
         }
     })
+
+    const [pic, setFileUrl] = useState('')
+    const [dob, setDob] = useState('')
+    const [mobile, setMobile] = useState('')
+    const [profileId, setProfileId] = useState({})
+    const [gender, setGender] = useState('')
+    const [temp, setTemp] = useState('')
+
+    loading ? setTemp(data.getProfile.pic) : console.log('')
 
     const onDobChange = (event) =>{
         setDob({...dob, [event.target.name]: event.target.value})
@@ -38,14 +44,18 @@ function EditProfile(props){
         setProfileId(data.getProfile.id)
     }
 
+    const onPicChange = async (event) => {
+        setTemp(URL.createObjectURL(event.target.files[0]))
+        const file = event.target.files[0]
+        const storageRef = app.storage().ref()
+        const fileRef = storageRef.child(file.name)
+        await fileRef.put(file)
+        const fileUrl = await fileRef.getDownloadURL()
+        setFileUrl({...pic, pic: fileUrl})
+    }
+
     const [handleData, { error }] = useMutation(UPDATE_PROFILE_MUTATION, {
         update(proxy, result){
-            const data = proxy.readQuery({
-                query: FETCH_PROFILE_QUERY,
-                variables:{
-                    username
-                }
-            })
 
             proxy.writeQuery({
                 query: FETCH_PROFILE_QUERY,
@@ -69,10 +79,6 @@ function EditProfile(props){
         handleData()
     }
 
-    const fileChange = (e) =>{
-        setTemp(URL.createObjectURL(e.target.files[0]))
-    }
-
     return (
     <>
         {
@@ -88,8 +94,9 @@ function EditProfile(props){
                             src={temp}
                         />
                         <Input
+                            name="pic"
                             type="file"
-                            onChange={fileChange}
+                            onChange={onPicChange}
                         />
                     </Grid.Column>
                 </Grid>
