@@ -23,10 +23,7 @@ function SinglePost(props){
             postId
         }
     })
-    function deletePostCallback(){
-        props.history.push('/')
-    }
-
+    
     const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
         update(){
             setComment('')
@@ -38,9 +35,13 @@ function SinglePost(props){
         }
     })
 
+    function deletePostCallback(){
+        props.history.push('/')
+    }
+
     let postMarkup;
     if(!getPost){
-        postMarkup = <p>Loading post..</p>
+        postMarkup = <p>Loading post....</p>
     }else{
         const { id, body, createdAt, username, comments, likes, likeCount, commentCount } = getPost;
 

@@ -8,8 +8,9 @@ import { AuthContext } from '../context/auth'
 import DeleteButton from './DeleteButton'
 import MyPopup from '../utils/MyPopup'
 
-const PostCard = ({post: {body, createdAt, username,id, likeCount, commentCount, likes}}) =>{
+const PostCard = ({post: {body, createdAt, username, id, likeCount, commentCount, likes }}) =>{
     const { user } = useContext(AuthContext)
+    // console.log(userId)
 
     return (
         <Card fluid>
@@ -17,9 +18,9 @@ const PostCard = ({post: {body, createdAt, username,id, likeCount, commentCount,
                 <Image
                     floated='right'
                     size='mini'
-                    src='https://react.semantic-ui.com/images/avatar/large/molly.png'
+                    src='https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/Screenshot%20(72).png?alt=media'
                 />
-                <Card.Header>{username}</Card.Header>
+                <Card.Header as={Link} to={`/profile/${username}`}>{username}</Card.Header>
                 <Card.Meta as={Link} to={`/posts/${id}`}>{moment(createdAt).fromNow(true)}</Card.Meta>
                 <Card.Description>{body}</Card.Description>
             </Card.Content>

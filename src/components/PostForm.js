@@ -7,7 +7,7 @@ import { useForm } from '../utils/hooks'
 import { FETCH_POSTS_QUERY } from '../utils/graphql'
 
 function PostForm(){
-    const { value, onChange, onSubmit } = useForm(createPostCallback, {
+    const { value, onChange, onSubmit } = (useForm)(createPostCallback, {
         body: ''
     })
 
@@ -19,6 +19,8 @@ function PostForm(){
                 query: FETCH_POSTS_QUERY
             })
             // data.getPosts = [result.data.createPost, ...data.getPosts]
+
+            // console.log(value)
             proxy.writeQuery({ 
                 query : FETCH_POSTS_QUERY, 
                 data: {
