@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import React, { useState } from 'react'
-import { Image, Form, Button, Dropdown, Grid, Input } from 'semantic-ui-react'
+import { Form, Button, Dropdown } from 'semantic-ui-react'
 import gql from 'graphql-tag'
 
-import { app } from '../storage/base'
+import { FETCH_PROFILE_QUERY } from '../utils/graphql'
+
+// import { app } from '../storage/base'
 
 function EditProfile(props){
     const username = props.match.params.username
@@ -11,6 +13,39 @@ function EditProfile(props){
     const Gender = [
         { key: 'M', value: 'M', text: 'Male' },
         { key: 'F', value: 'F', text: 'Female' },
+        ]
+    
+    const imageOption = [
+        {
+            key: 'J',
+            value: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fdaniel.jpg?alt=media',
+            image: { avatar: true, src: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fdaniel.jpg?alt=media' },
+        },
+        {
+            key: 'E',
+            value: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Felliot.jpg?alt=media',
+            image: { avatar: true, src: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Felliot.jpg?alt=media' },
+        },
+        {
+            key: 'SF',
+            value: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fjenny.jpg?alt=media',
+            image: { avatar: true, src: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fjenny.jpg?alt=media' },
+        },
+        {
+            key: 'C',
+            value: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fmatthew.png?alt=media',
+            image: { avatar: true, src: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fmatthew.png?alt=media' },
+        },
+        {
+            key: 'M',
+            value: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fmolly.png?alt=media',
+            image: { avatar: true, src: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fmolly.png?alt=media' },
+        },
+        {
+            key: 'T',
+            value: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fsteve.jpg?alt=media',
+            image: { avatar: true, src: 'https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/User%2Fsteve.jpg?alt=media' },
+        },
         ]
 
     const { loading, data } = useQuery(FETCH_PROFILE_QUERY, {
@@ -24,14 +59,10 @@ function EditProfile(props){
     const [mobile, setMobile] = useState('')
     const [profileId, setProfileId] = useState({})
     const [gender, setGender] = useState('')
-    const [temp, setTemp] = useState('')
-
-    loading ? setTemp(data.getProfile.pic) : console.log('')
 
     const onDobChange = (event) =>{
         setDob({...dob, [event.target.name]: event.target.value})
-        setProfileId(data.getProfile.id)
-        
+        setProfileId(data.getProfile.id)   
     }
 
     const onMobileChange = (event) =>{
@@ -44,14 +75,9 @@ function EditProfile(props){
         setProfileId(data.getProfile.id)
     }
 
-    const onPicChange = async (event) => {
-        setTemp(URL.createObjectURL(event.target.files[0]))
-        const file = event.target.files[0]
-        const storageRef = app.storage().ref()
-        const fileRef = storageRef.child(file.name)
-        await fileRef.put(file)
-        const fileUrl = await fileRef.getDownloadURL()
-        setFileUrl({...pic, pic: fileUrl})
+    const onPicChange = (event, { value }) => {
+        setFileUrl({...pic, pic: value})
+        setProfileId(data.getProfile.id)
     }
 
     const [handleData, { error }] = useMutation(UPDATE_PROFILE_MUTATION, {
@@ -69,7 +95,7 @@ function EditProfile(props){
             profileId,
             mobile: mobile.mobile,
             dob: dob.dob,
-            pic: pic,
+            pic: pic.pic,
             gender: gender.gender
         }
     })
@@ -86,21 +112,15 @@ function EditProfile(props){
             <h1>loading profile...</h1>
         ) : (
             <Form onSubmit={onSubmit}>
-                <Grid centered columns={2}>
-                    <Grid.Column>
-                        <Image
-                            fluid
-                            style={{marginBottom: 10}}
-                            src={temp}
-                        />
-                        <Input
-                            name="pic"
-                            type="file"
-                            onChange={onPicChange}
-                        />
-                    </Grid.Column>
-                </Grid>
             <Form.Field>
+                <Dropdown
+                    placeholder='Select Avatar'
+                    fluid
+                    selection
+                    options={imageOption}
+                    style={{marginBottom:10}}
+                    onChange={onPicChange}
+                />
                 <Form.Input
                     label="DOB"
                     placeholder="DOB"
@@ -112,10 +132,12 @@ function EditProfile(props){
                 <Form.Input
                     label="Mobile"
                     placeholder="MOBILE"
+                    // type="number"
                     name="mobile"
                     onChange={onMobileChange}
-                    error={error ? true : false}
+                    error={error ? "Enter correct Mobile number" : false}
                     maxLength="10"
+                    minLength="10"
                 />
                 <Dropdown
                     placeholder='Gender'
@@ -136,16 +158,6 @@ function EditProfile(props){
     )
 }
 
-const FETCH_PROFILE_QUERY = gql`
-query($username: String!){
-    getProfile(username: $username){
-        id
-        dob
-        pic
-        mobile
-    }
-}
-`
 const UPDATE_PROFILE_MUTATION = gql`
     mutation editProfile($profileId: ID!, $mobile: String!, $dob: String!, $pic: String!, $gender: String!){
         editProfile(profileId: $profileId, mobile: $mobile, dob: $dob, pic: $pic, gender: $gender){

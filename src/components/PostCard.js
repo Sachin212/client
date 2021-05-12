@@ -18,7 +18,7 @@ const PostCard = ({post: {body, createdAt, username, id, likeCount, commentCount
                 <Image
                     floated='right'
                     size='mini'
-                    src='https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/Screenshot%20(72).png?alt=media'
+                    src=''
                 />
                 <Card.Header as={Link} to={`/profile/${username}`}>{username}</Card.Header>
                 <Card.Meta as={Link} to={`/posts/${id}`}>{moment(createdAt).fromNow(true)}</Card.Meta>

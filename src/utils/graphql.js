@@ -14,3 +14,14 @@ query {
     }
 }
 `
+
+export const FETCH_PROFILE_QUERY = gql`
+query($username: String!){
+    getProfile(username: $username){
+        id
+        dob
+        pic
+        mobile
+    }
+}
+`

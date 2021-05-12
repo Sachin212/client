@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/react-hooks'
 import React, { useContext } from 'react'
 import { Card, Grid, Icon, Image, Button } from 'semantic-ui-react'
-import gql from 'graphql-tag'
 import moment from 'moment'
 
+import { FETCH_PROFILE_QUERY } from '../utils/graphql'
 import { AuthContext } from '../context/auth'
 import MyPopup from '../utils/MyPopup'
 import { Link } from 'react-router-dom'
@@ -28,7 +28,7 @@ const Profile = (props) =>{
                     <Grid.Column width={4}>
                     <Image 
                     src = {
-                        data.getProfile.pic === "false" ? 'https://react.semantic-ui.com/images/avatar/large/molly.png' : data.getProfile.pic
+                        data.getProfile.pic === "false" ? '' : data.getProfile.pic
                     }
                     />
                     <Card fluid centered raised>
@@ -52,13 +52,13 @@ const Profile = (props) =>{
                                 </Card.Content>
                             </Card>
                         )}
-                        {data.getProfile.pic === "false" ? "" : (
+                        {/* {data.getProfile. === "false" ? "" : (
                             <Card fluid>
                                 <Card.Content>
                                     <Card.Header>{data.getProfile.pic}</Card.Header>
                                 </Card.Content>
                             </Card>
-                        )}
+                        )} */}
                         
                     </Grid.Column>
                 </Grid>
@@ -81,16 +81,5 @@ const Profile = (props) =>{
         </>
     )
 }
-
-const FETCH_PROFILE_QUERY = gql`
-query($username: String!){
-    getProfile(username: $username){
-        id
-        dob
-        mobile
-        pic
-    }
-}
-`
 
 export default Profile

@@ -20,7 +20,7 @@ const MenuBar = () => {
         <>
         {
             user ? (
-                <Menu pointing secondary size="massive" color="teal" stackable>
+                <Menu stackable size="massive" color="teal">
                     <Menu.Item
                         name="home"
                         onClick={handleItemClick}
@@ -29,7 +29,7 @@ const MenuBar = () => {
                     >   
                         <img
                             alt=""
-                            src='https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/Screenshot%20(74).png?alt=media'
+                            src='https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/Logo%2Flogo.png?alt=media'
                         />
                     </Menu.Item>
                     <Menu.Item
@@ -49,14 +49,14 @@ const MenuBar = () => {
                     </Menu.Menu>
                 </Menu>
             ) : (
-                <Menu pointing secondary size="massive" color="teal">
+                <Menu stackable size="massive" color="teal">
                     <Menu.Item
                         as={Link}
                         to="/"
                     >   
                         <img
                             alt=""
-                            src='https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/Screenshot%20(74).png?alt=media'
+                            src='https://firebasestorage.googleapis.com/v0/b/fir-e6ee2.appspot.com/o/Logo%2Flogo.png?alt=media'
                         />
                     </Menu.Item>
                     <Menu.Item
