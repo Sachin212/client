@@ -1,6 +1,6 @@
 import React, {useContext, useState, useRef} from 'react'
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Button, Card, Grid, Icon, Label, Image, Form } from 'semantic-ui-react';
+import { Button, Card, Grid, Icon, Label, Form } from 'semantic-ui-react';
 import moment from 'moment'
 import gql from 'graphql-tag'
 
@@ -8,6 +8,7 @@ import { AuthContext } from '../context/auth'
 import LikeButton from '../components/LikeButton';
 import DeleteButton from '../components/DeleteButton';
 import MyPopup from '../utils/MyPopup';
+import { Link } from 'react-router-dom';
 
 
 function SinglePost(props){
@@ -46,19 +47,19 @@ function SinglePost(props){
         const { id, body, createdAt, username, comments, likes, likeCount, commentCount } = getPost;
 
         postMarkup = (
-            <Grid>
+            <Grid centered>
                 <Grid.Row>
-                    <Grid.Column width={2}>
+                    {/* <Grid.Column width={2}>
                         <Image
-                        src='https://react.semantic-ui.com/images/avatar/large/molly.png'
+                        src=''
                         size="small"
                         float="right" 
                         />
-                    </Grid.Column>
+                    </Grid.Column> */}
                     <Grid.Column width={10}>
                         <Card fluid>
                             <Card.Content>
-                                <Card.Header>{username}</Card.Header>
+                                <Card.Header as={Link} to={`../profile/${username}`}>{username}</Card.Header>
                                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
                                 <Card.Description>{body}</Card.Description>
                             </Card.Content>

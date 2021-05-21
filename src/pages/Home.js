@@ -32,7 +32,7 @@ const Home = ()=>{
                                     <PostCard post={post} />
                                 </Grid.Column>
                             ))
-                        }
+                        } 
                     </Transition.Group>
                 )}
             </Grid.Row>

@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Menu } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import { AuthContext } from '../context/auth'
 
 const MenuBar = () => {
     const { user, logout } = useContext(AuthContext)
 
-    const pathname = window.location.pathname;
-    const path = pathname === '/' ? 'home' : pathname.substr(1);
-    const [activeItem, setActiveItem] = useState(path)
+    // const pathname = window.location.pathname;
+    // const path = pathname === '/' ? 'home' : pathname.substr(1);
+    // const [activeItem, setActiveItem] = useState(path)
 
-    const handleItemClick = (e, { name }) => setActiveItem(name)
+    // const handleItemClick = (e, { name }) => setActiveItem(name)
     const handleLog = () =>{
-        setActiveItem('home')
+        // setActiveItem('home')
         logout()
     }
     return (
@@ -23,7 +23,7 @@ const MenuBar = () => {
                 <Menu stackable size="massive" color="teal">
                     <Menu.Item
                         name="home"
-                        onClick={handleItemClick}
+                        // onClick={handleItemClick}
                         as={Link}
                         to="/"
                     >   
@@ -34,9 +34,9 @@ const MenuBar = () => {
                     </Menu.Item>
                     <Menu.Item
                         name={user.username}
-                        active={activeItem === user.username}
-                        onClick={handleItemClick}
-                        as={Link}
+                        // active={activeItem === user.username}
+                        // onClick={handleItemClick}
+                        as={NavLink}
                         to={`/profile/${user.username}`}
                     />
                     <Menu.Menu position='right'>
@@ -61,24 +61,25 @@ const MenuBar = () => {
                     </Menu.Item>
                     <Menu.Item
                         name='home'
-                        active={activeItem === 'home'}
-                        onClick={handleItemClick}
-                        as={Link}
+                        // active={activeItem === 'home'}
+                        // onClick={handleItemClick}
+                        as={NavLink}
+                        exact
                         to="/"
                     />
                     <Menu.Menu position='right'>
                         <Menu.Item
                             name='login'
-                            active={activeItem === 'login'}
-                            onClick={handleItemClick}
-                            as={Link}
+                            // active={activeItem === 'login'}
+                            // onClick={handleItemClick}
+                            as={NavLink}
                             to="/login"
                         />
                         <Menu.Item
                             name='register'
-                            active={activeItem === 'register'}
-                            onClick={handleItemClick}
-                            as={Link}
+                            // active={activeItem === 'register'}
+                            // onClick={handleItemClick}
+                            as={NavLink}
                             to="/register"
                         />
                     </Menu.Menu>
