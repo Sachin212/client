@@ -12,13 +12,13 @@ const Home = ()=>{
     const { loading, data } = useQuery(FETCH_POSTS_QUERY);
 
     return(
-        <Grid columns={3}>
+        <Grid columns={1} centered>
             <Grid.Row className="page-title">
                 <h1>Recent Posts</h1>
             </Grid.Row>
             <Grid.Row>
                 { user && (
-                    <Grid.Column>
+                    <Grid.Column width={10} style={{marginBottom: 10}}>
                         <PostForm />
                     </Grid.Column>
                 ) }
@@ -28,7 +28,7 @@ const Home = ()=>{
                     <Transition.Group>
                         {
                             data.getPosts.length > 0 && data.getPosts.map(post=> (
-                                <Grid.Column key={post.id} style={{marginBottom: 20}}>
+                                <Grid.Column width={14} key={post.id} style={{marginBottom: 20}}>
                                     <PostCard post={post} />
                                 </Grid.Column>
                             ))

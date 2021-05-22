@@ -56,7 +56,7 @@ function SinglePost(props){
                         float="right" 
                         />
                     </Grid.Column> */}
-                    <Grid.Column width={10}>
+                    <Grid.Column width={12}>
                         <Card fluid>
                             <Card.Content>
                                 <Card.Header as={Link} to={`../profile/${username}`}>{username}</Card.Header>
